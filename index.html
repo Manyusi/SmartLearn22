@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SmartLearn | Login & Register</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: blue;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+    }
+
+    h1 {
+      color: silver;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .center-image {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .center-image img {
+      width: 200px;
+      border-radius: 10px;
+    }
+
+    .box {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      width: 300px;
+      box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+      margin-bottom: 20px;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background: teal;
+      color: white;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background: darkcyan;
+    }
+
+    .switch {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .switch a {
+      color: blue;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    #loginMessage, #registerMessage {
+      text-align: center;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Welcome to SmartLearn</h1>
+
+  
+  <div class="center-image">
+    <img src="webpage.jpg" alt="SmartLearn Image">
+  </div>
+
+  <!-- Login Box -->
+  <div class="box" id="loginBox">
+    <h2>Login</h2>
+    <?php
+     echo "<p style='color:blue;'>PHP is working inside this file!</p>";
+     ?>
+    <form action="login. php" method="post">
+      <input type="text" id="loginUsername" placeholder="Username" required />
+      <input type="password" id="loginPassword" placeholder="Password" required />
+      <button type="submit">Login</button>
+    </form>
+    <div class="switch">
+      Don't have an account? <a onclick="showRegister()">Register here</a>
+    </div>
+    <div id="loginMessage"></div>
+  </div>
+
+  <!-- Register Box -->
+  <div class="box hidden" id="registerBox">
+    <h2>Register</h2>
+    
+    <form action="register.php" method="post">
+      <input type="text" id="regUsername" placeholder="Username" required />
+      <input type="password" id="regPassword" placeholder="Password" required />
+      <button type="submit">Register</button>
+    </form>
+    <div class="switch">
+      Already have an account? <a onclick="showLogin()">Login here</a>
+    </div>
+    <div id="registerMessage"></div>
+  </div>
+
+  <script>
+    let users = {};
+
+    function showRegister() {
+      document.getElementById("loginBox").classList.add("hidden");
+      document.getElementById("registerBox").classList.remove("hidden");
+      document.getElementById("loginMessage").textContent = "";
+      document.getElementById("registerMessage").textContent = "";
+    }
+
+    function showLogin() {
+      document.getElementById("registerBox").classList.add("hidden");
+      document.getElementById("loginBox").classList.remove("hidden");
+      document.getElementById("loginMessage").textContent = "";
+      document.getElementById("registerMessage").textContent = "";
+    }
+
+    // Register message
+    function showRegisterMessage(text, color) {
+      const msg = document.getElementById("registerMessage");
+      msg.textContent = text;
+      msg.style.color = color;
+    }
+
+    // Login message
+    function showLoginMessage(text, color) {
+      const msg = document.getElementById("loginMessage");
+      msg.textContent = text;
+      msg.style.color = color;
+    }
+
+    // Register form logic
+    document.getElementById("registerForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const user = document.getElementById("regUsername").value;
+      const pass = document.getElementById("regPassword").value;
+
+      if (users[user]) {
+        showRegisterMessage("User already exists!", "red");
+      } else {
+        users[user] = pass;
+        showRegisterMessage("Registration successful!", "green");
+      }
+    });
+
+    // Login form logic
+    document.getElementById("loginForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const user = document.getElementById("loginUsername").value;
+      const pass = document.getElementById("loginPassword").value;
+
+      if (users[user] && users[user] === pass) {
+        showLoginMessage("Login successful! Welcome to SmartLearn.", "green");
+      } else {
+        showLoginMessage("Invalid username or password.", "red");
+      }
+    });
+  </script>
+
+</body>
+</html>
